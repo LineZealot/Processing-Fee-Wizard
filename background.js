@@ -4,9 +4,31 @@ chrome.action.onClicked.addListener(async (tab) => {
     const [result] = await chrome.scripting.executeScript({
         target: {tabId},
         func: () => {
-            const subTotal = parseFloat((document.querySelector("td.align-right.RunningTotal").textContent * 0.035) + 0.01).toFixed(2);
+            const subTotal = parseFloat((document.querySelector('td.align-right.RunningTotal').textContent * 0.035) + 0.01).toFixed(2);
             alert(subTotal);
             return subTotal;
+        }
+    });
+    
+    // Wait for the tab to navigate to a new page
+    chrome.tabs.onUpdated.addListener(function listener(updatedTabId, changeInfo) {
+        if (updatedTabId === tabId && changeInfo.status === 'complete') {
+            // Remove the listener to avoid executing this code multiple times
+            chrome.tabs.onUpdated.removeListener(listener);
+
+            // Execute a content script on the new page to autofill the number
+            chrome.scripting.executeScript({
+                target: {tabId},
+                func: (number) => {
+                    // Find the text input and fill in the number
+                    const input = document.querySelector('input[type="text"]#txtListPrice');
+                    if (input) {
+                        input.value = number;
+                    }
+                    alert(typeof result);
+                },
+                args: [result]
+            });
         }
     });
 
@@ -28,4 +50,4 @@ chrome.action.onClicked.addListener(async (tab) => {
             }
         }
     });
-  });
+});
