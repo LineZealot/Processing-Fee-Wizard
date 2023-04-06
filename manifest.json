@@ -10,8 +10,5 @@
     "permissions": ["scripting", "activeTab"],
     "background": {
         "service_worker": "background.js"
-    },
-    "content_scripts": [{
-        "matches": ["https://prod.avpos.com/FrontDesk/Invoice/*", "https://prod.avpos.com/FrontDesk/InvoiceDetailAdd?DepartmentId=18*"]
-    }]
+    }
 }
