@@ -1,14 +1,17 @@
 chrome.action.onClicked.addListener(async (tab) => {
+    
     const tabId = tab.id;
+    let processingFeePrice;
+
     // Get the receipt subtotal
     const [result] = await chrome.scripting.executeScript({
         target: {tabId},
         func: () => {
-            const subTotal = parseFloat((document.querySelector('td.align-right.RunningTotal').textContent * 0.035) + 0.01).toFixed(2);
-            alert(subTotal);
-            return subTotal;
+            const procFeeCalc = parseFloat((document.querySelector('td.align-right.RunningTotal').textContent * 0.035) + 0.01).toFixed(2);
+            return procFeeCalc;
         }
     });
+    processingFeePrice = result;
     
     // Wait for the tab to navigate to a new page
     chrome.tabs.onUpdated.addListener(function listener(updatedTabId, changeInfo) {
@@ -19,15 +22,14 @@ chrome.action.onClicked.addListener(async (tab) => {
             // Execute a content script on the new page to autofill the number
             chrome.scripting.executeScript({
                 target: {tabId},
-                func: (number) => {
+                func: () => {
                     // Find the text input and fill in the number
                     const input = document.querySelector('input[type="text"]#txtListPrice');
                     if (input) {
-                        input.value = number;
+                        input.value = processingFeePrice;
                     }
-                    alert(typeof result);
-                },
-                args: [result]
+                    alert('poop');
+                }
             });
         }
     });
@@ -48,6 +50,7 @@ chrome.action.onClicked.addListener(async (tab) => {
             if (link) {
                 window.location.href = link.href;
             }
+            alert(processingFeePrice);
         }
     });
 });
