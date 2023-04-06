@@ -1,0 +1,18 @@
+{
+    "manifest_version": 3,
+    "name": "Processing Fee Wizard",
+    "description": "Calculate a processing fee with the press of a button",
+    "version": "0.1.0",
+    "action": {},
+    "icons": {
+        "128": "/images/pfw-icon-128.png"
+    },
+    "permissions": ["scripting", "activeTab"],
+    "background": {
+        "service_worker": "background.js"
+    },
+    "content_scripts": [{
+        "matches": ["https://prod.avpos.com/FrontDesk/Invoice/*", "https://prod.avpos.com/FrontDesk/InvoiceDetailAdd?DepartmentId=18*"],
+        "css": ["style.css"]
+    }]
+}
