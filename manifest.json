@@ -12,7 +12,6 @@
         "service_worker": "background.js"
     },
     "content_scripts": [{
-        "matches": ["https://prod.avpos.com/FrontDesk/Invoice/*", "https://prod.avpos.com/FrontDesk/InvoiceDetailAdd?DepartmentId=18*"],
-        "css": ["style.css"]
+        "matches": ["https://prod.avpos.com/FrontDesk/Invoice/*", "https://prod.avpos.com/FrontDesk/InvoiceDetailAdd?DepartmentId=18*"]
     }]
 }
