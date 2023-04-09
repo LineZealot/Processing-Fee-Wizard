@@ -44,13 +44,18 @@ chrome.action.onClicked.addListener(async (tab) => {
         target: {tabId},
         func: (oldFee, oldPrice) => {
             const subTotal = parseFloat((document.querySelector('td.align-right.RunningTotal').textContent));
+            
+            function roundUpCent (num) {
+                const fixedPrice = Math.ceil(num * 100) / 100;
+                return fixedPrice.toFixed(2);
+            }
 
             if(oldFee.result == true) {
-                const newTotal = parseFloat(((subTotal - oldPrice.result) * 0.035) + 0.01).toFixed(2);
-                return newTotal;
+                const newTotal = parseFloat((subTotal - oldPrice.result) * 0.035);
+                return roundUpCent(newTotal);
             } else {
-                const price = parseFloat((document.querySelector('td.align-right.RunningTotal').textContent * 0.035) + 0.01).toFixed(2);
-                return price;
+                const price = parseFloat(document.querySelector('td.align-right.RunningTotal').textContent * 0.035);
+                return roundUpCent(price);
             }
         },
         args: [feeElement, oldFeePrice]
@@ -82,18 +87,18 @@ chrome.action.onClicked.addListener(async (tab) => {
     await chrome.scripting.executeScript({
         target: {tabId},
         function: (oldFee) => {
-            // Get the invoice number from the url
-            const invoiceNum = (function(currUrl) {
-                const urlToArray = currUrl.split('/');
-                return urlToArray[urlToArray.length - 1];
-            })(window.location.href);
-
             // const link = document.querySelector(procFeeButton.result);
             const link = () => {
                 if(oldFee.result === false) {
-                    const divs = document.querySelector('div#button-container').querySelectorAll('div.button-holder');
-                    const anchor = divs[11].querySelector('a.hotbutton-link');
-                    return anchor.getAttribute("href").toString();
+                    const hotButtons = [...document.querySelectorAll('a.hotbutton-link')];
+                    const feeButton = (arr) => {
+                        for(let i = 0; i < arr.length; i++) {
+                            if(arr[i].querySelector('div.hotbutton > p.caption').textContent.trim() == "Processing Fee") {
+                                return arr[i].getAttribute("href").toString();
+                            }
+                        }
+                    }
+                    return feeButton(hotButtons);
                 } else {
                     const rows = [...document.querySelector('table.InvoiceDetails > tbody').querySelectorAll('tr')];
                     const index = () => {
