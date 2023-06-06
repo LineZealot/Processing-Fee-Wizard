@@ -163,7 +163,18 @@ chrome.webNavigation.onDOMContentLoaded.addListener(
             // Create the button element
             const button = document.createElement("button");
             button.id = "myButton";
-            button.textContent = "Click Me";
+            button.textContent = "Fast Login";
+            (function styleButton() {
+                button.style.backgroundColor = 'rgb(76, 124, 255)';
+                button.style.color = 'white';
+                button.style.border = 'none';
+                button.style.borderRadius = '8px';
+                button.style.position = 'absolute';
+                button.style.left ='45vw';
+                button.style.bottom = '5vh';
+                button.style.width = 'max(10vw, 64px)';
+                button.style.height = 'max(4vh, 12px)';
+            })();
 
             // Add an event listener to the button
             button.addEventListener("click", () => {
