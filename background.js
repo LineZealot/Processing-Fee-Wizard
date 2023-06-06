@@ -149,10 +149,7 @@ chrome.action.onClicked.addListener(async (tab) => {
 chrome.webNavigation.onDOMContentLoaded.addListener(
   function (details) {
     // Check if the URL matches the desired pattern
-    if (
-      details.url &&
-      details.url.startsWith("https://prod.avpos.com/")
-    ) {
+    if (details.url && details.url.startsWith("https://prod.avpos.com/")) {
       // Execute a content script to append the button to the page
       chrome.scripting.executeScript({
         target: { tabId: details.tabId },
