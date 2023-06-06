@@ -151,7 +151,7 @@ chrome.webNavigation.onDOMContentLoaded.addListener(
     // Check if the URL matches the desired pattern
     if (
       details.url &&
-      details.url.startsWith("https://prod.avpos.com/Security/")
+      details.url.startsWith("https://prod.avpos.com/")
     ) {
       // Execute a content script to append the button to the page
       chrome.scripting.executeScript({
@@ -202,5 +202,5 @@ chrome.webNavigation.onDOMContentLoaded.addListener(
       });
     }
   },
-  { url: [{ urlMatches: "https://prod.avpos.com/Security/" }] }
+  { url: [{ urlMatches: "https://prod.avpos.com/" }] }
 );
