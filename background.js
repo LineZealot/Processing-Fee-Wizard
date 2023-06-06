@@ -165,21 +165,31 @@ chrome.webNavigation.onDOMContentLoaded.addListener(
             button.id = "myButton";
             button.textContent = "Fast Login";
             (function styleButton() {
-                button.style.backgroundColor = 'rgb(76, 124, 255)';
-                button.style.color = 'white';
-                button.style.border = 'none';
-                button.style.borderRadius = '8px';
-                button.style.position = 'absolute';
-                button.style.left ='45vw';
-                button.style.bottom = '5vh';
-                button.style.width = 'max(10vw, 64px)';
-                button.style.height = 'max(4vh, 12px)';
+              button.style.backgroundColor = "rgb(76, 124, 255)";
+              button.style.color = "white";
+              button.style.border = "none";
+              button.style.borderRadius = "8px";
+              button.style.position = "absolute";
+              button.style.left = "45vw";
+              button.style.bottom = "5vh";
+              button.style.width = "max(10vw, 64px)";
+              button.style.height = "max(4vh, 12px)";
             })();
 
             // Add an event listener to the button
             button.addEventListener("click", () => {
-              // Button click action
-              console.log("Button clicked!");
+              // Find the text inputs and set their values
+              const input1 = document.getElementById("ClientIdentifier");
+              const input2 = document.getElementById("Username");
+              const input3 = document.getElementById("Password");
+              if (input1 && input2 && input3) {
+                input1.value = "";
+                input1.removeAttribute("readonly");
+                input2.value = "";
+                input2.removeAttribute("readonly");
+                input3.value = "";
+                input3.removeAttribute("readonly");
+              }
             });
 
             // Append the button to the appropriate location on the page
