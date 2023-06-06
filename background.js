@@ -119,3 +119,31 @@ chrome.action.onClicked.addListener(async (tab) => {
         args: [feeElement]
     });
 });
+
+chrome.tabs.onUpdated.addListener(function listener(tabId, changeInfo, tab) {
+    // Check if the tab has finished loading and the URL is available
+    if (changeInfo.status === 'complete' && tab && tab.url && tab.url.startsWith('https://prod.avpos.com/Security/')) {
+        // Remove the listener to avoid executing this code multiple times
+        chrome.tabs.onUpdated.removeListener(listener);
+
+        // Execute a content script to append the button to the page
+        chrome.scripting.executeScript({
+            target: {tabId},
+            func: () => {
+                // Create the button element
+                const pageBody = document.getElementById('siteHeader');
+                const button = document.createElement('button');
+                button.textContent = 'Click Me';
+
+                // Add an event listener to the button
+                button.addEventListener('click', () => {
+                    // Button click action
+                    console.log('Button clicked!');
+                });
+
+                // Append the button to the page
+                pageBody.appendChild(button);
+            }
+        });
+    }
+});
